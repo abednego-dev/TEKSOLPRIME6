@@ -1,0 +1,87 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFrameworks>net481;net10.0-windows;net10.0</TargetFrameworks>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <EmbeddedResourceUseDependentUponConvention>true</EmbeddedResourceUseDependentUponConvention>
+    <RootNamespace>$(MSBuildProjectName.Replace(" ", "_").Replace("-", "_"))</RootNamespace>
+    <NoWarn>CA1416;WFO1000</NoWarn>
+    <LangVersion>latest</LangVersion>
+  </PropertyGroup>
+
+
+  <PropertyGroup Condition="'$(TargetFramework.TrimEnd(`0123456789`))'=='net'">
+    <OutputPath>bin\</OutputPath>
+    <StartupObject></StartupObject>
+    <OutputType>Library</OutputType>
+    <RunCommand>$(ProgramFiles)\IIS Express\iisexpress.exe</RunCommand>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <RunArguments>/config:".\Properties\applicationhost.config"</RunArguments>
+  </PropertyGroup>
+
+  <ItemGroup Condition="'$(TargetFramework.TrimEnd(`0123456789`))'=='net'">
+    <Compile Remove="Startup.cs" />
+    <Content Include="Startup.cs" />
+  </ItemGroup>
+
+	<PropertyGroup>
+		<Version>6.0.0</Version>
+		<InformationalVersion>6.0.0</InformationalVersion>
+	</PropertyGroup>
+
+	<ItemGroup>
+	  <Compile Remove="Dashboard\**" />
+	  <Content Remove="Dashboard\**" />
+	  <EmbeddedResource Remove="Dashboard\**" />
+	  <None Remove="Dashboard\**" />
+	</ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Resources\Icons\" />
+    <Folder Include="Themes\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="Default.json">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Web.config">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="Default.html" />
+    <None Remove="favicon.ico" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Default.html">
+      <CopyToPublishDirectory>Always</CopyToPublishDirectory>
+    </Content>
+    <Content Include="favicon.ico">
+      <CopyToPublishDirectory>Always</CopyToPublishDirectory>
+    </Content>
+  </ItemGroup>
+  
+  <ItemGroup>
+    <PackageReference Include="Dapper" Version="2.1.89" />
+    <PackageReference Include="Microsoft.Data.SqlClient" Version="7.1.1" />
+    <PackageReference Include="System.Security.Cryptography.Pkcs" Version="9.0.21" />
+    <PackageReference Include="Wisej-4" Version="4.1.6" />
+    <PackageReference Include="System.Data.SqlClient" Version="4.*" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.23.0" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <PackageReference Update="System.Drawing.Common" Version="10.0.14" />
+  </ItemGroup>
+
+
+</Project>
